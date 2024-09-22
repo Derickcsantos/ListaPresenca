@@ -4,62 +4,63 @@ const Guest = require('./models/guest'); // Importa o modelo 'Guest' para gerenc
 const app = express(); // Cria uma instância do aplicativo Express
 const mongoose = require('mongoose'); // Importa o módulo 'mongoose' para interagir com o MongoDB
 
-// Conectar ao MongoDB
-mongoose.connect('mongodb://localhost:27017/guestlist') // Conecta ao banco de dados 'guestlist'
-  .then(() => console.log('Conectado ao MongoDB')) // Mensagem de sucesso na conexão
+// Conectar ao MongoDB Atlas
+const mongoURI = 'mongodb+srv://Derick:Basquete-1@cluster0.dbu0v.mongodb.net/guestlist?retryWrites=true&w=majority';
+
+mongoose.connect(mongoURI) // Conecta ao banco de dados 'guestlist' no Atlas
+  .then(() => console.log('Conectado ao MongoDB Atlas')) // Mensagem de sucesso na conexão
   .catch(err => console.error('Não foi possível conectar ao MongoDB...', err)); // Mensagem de erro na conexão
 
 app.use(express.json()); // Middleware para analisar requisições JSON
 app.use(express.static(path.join(__dirname, 'public'))); // Serve arquivos estáticos do diretório 'public'
 
 // Rota para obter todos os convidados
-app.get('/guests', async (req, res) => { // Rota GET para '/guests'
+app.get('/guests', async (req, res) => {
     try {
-      const guests = await Guest.find();  // Busca todos os convidados no banco de dados
-      res.json(guests);  // Retorna a lista de convidados em formato JSON
+      const guests = await Guest.find(); // Busca todos os convidados no banco de dados
+      res.json(guests); // Retorna a lista de convidados em formato JSON
     } catch (err) {
-      console.error('Erro ao buscar convidados:', err); // Mensagem de erro no console
-      res.status(500).json({ error: 'Erro ao buscar convidados.' }); // Retorna erro 500
+      console.error('Erro ao buscar convidados:', err);
+      res.status(500).json({ error: 'Erro ao buscar convidados.' });
     }
 });
 
 // Rota para adicionar um convidado
-app.post('/guests', async (req, res) => { // Rota POST para '/guests'
-  const { name, age } = req.body; // Extrai 'name' e 'age' do corpo da requisição
-
-  const guest = new Guest({ name, age }); // Cria uma nova instância de convidado
+app.post('/guests', async (req, res) => {
+  const { name, age } = req.body;
+  const guest = new Guest({ name, age });
   try {
-      await guest.save(); // Salva o convidado no banco de dados
-      res.status(201).json(guest); // Retorna o convidado adicionado com status 201
+      await guest.save();
+      res.status(201).json(guest);
   } catch (err) {
-      console.error('Erro ao adicionar convidado:', err); // Mensagem de erro no console
-      res.status(500).json({ error: 'Erro ao adicionar convidado.' }); // Retorna erro 500
+      console.error('Erro ao adicionar convidado:', err);
+      res.status(500).json({ error: 'Erro ao adicionar convidado.' });
   }
 });
 
 // Rota para atualizar um convidado
-app.put('/guests/:id', async (req, res) => { // Rota PUT para '/guests/:id'
-    const { id } = req.params; // Obtém o ID do convidado da URL
-    const { name, age } = req.body; // Extrai 'name' e 'age' do corpo da requisição
+app.put('/guests/:id', async (req, res) => {
+    const { id } = req.params;
+    const { name, age } = req.body;
 
     try {
-        const guest = await Guest.findByIdAndUpdate(id, { name, age }, { new: true }); // Atualiza o convidado
+        const guest = await Guest.findByIdAndUpdate(id, { name, age }, { new: true });
         if (!guest) {
-            return res.status(404).json({ error: 'Convidado não encontrado' }); // Mensagem de erro se o convidado não for encontrado
+            return res.status(404).json({ error: 'Convidado não encontrado' });
         }
-        res.json(guest); // Retorna o convidado atualizado
+        res.json(guest);
     } catch (err) {
-        console.error('Erro ao atualizar convidado:', err); // Mensagem de erro no console
-        res.status(500).json({ error: 'Erro ao atualizar convidado' }); // Retorna erro 500
+        console.error('Erro ao atualizar convidado:', err);
+        res.status(500).json({ error: 'Erro ao atualizar convidado' });
     }
 });
 
 // Rota para deletar um convidado
-app.delete('/guests/:id', async (req, res) => { // Rota DELETE para '/guests/:id'
-  await Guest.findByIdAndDelete(req.params.id); // Deleta o convidado pelo ID
-  res.status(204).send(); // Não há conteúdo para retornar
+app.delete('/guests/:id', async (req, res) => {
+  await Guest.findByIdAndDelete(req.params.id);
+  res.status(204).send();
 });
 
 // Iniciar o servidor
-const PORT = process.env.PORT || 3000; // Define a porta do servidor
-app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`)); // Mensagem indicando que o servidor está rodando
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`));
