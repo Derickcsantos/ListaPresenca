@@ -1,11 +1,11 @@
-const path = require('path'); // Importa o módulo 'path' para manipulação de caminhos de arquivos
+const path = require('path'); // Importa o módulo 'path' para manipulação de caminhos de arquivos 
 const express = require('express'); // Importa o módulo 'express' para criar o servidor
 const Guest = require('./models/guest'); // Importa o modelo 'Guest' para gerenciar convidados
 const app = express(); // Cria uma instância do aplicativo Express
 const mongoose = require('mongoose'); // Importa o módulo 'mongoose' para interagir com o MongoDB
 
-// Conectar ao MongoDB Atlas
-const mongoURI = 'mongodb+srv://Derick:Basquete-1@cluster0.dbu0v.mongodb.net/guestlist?retryWrites=true&w=majority';
+// Conectar ao MongoDB Atlas usando variáveis de ambiente
+const mongoURI = process.env.MONGO_URI; // Usa a variável de ambiente MONGO_URI
 
 mongoose.connect(mongoURI) // Conecta ao banco de dados 'guestlist' no Atlas
   .then(() => console.log('Conectado ao MongoDB Atlas')) // Mensagem de sucesso na conexão
