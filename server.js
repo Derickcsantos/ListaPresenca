@@ -7,9 +7,10 @@ const mongoose = require('mongoose'); // Importa o módulo 'mongoose' para inter
 // Conectar ao MongoDB Atlas usando variáveis de ambiente
 const mongoURI = process.env.MONGO_URI; // Usa a variável de ambiente MONGO_URI
 
-mongoose.connect(mongoURI) // Conecta ao banco de dados 'guestlist' no Atlas
-  .then(() => console.log('Conectado ao MongoDB Atlas')) // Mensagem de sucesso na conexão
-  .catch(err => console.error('Não foi possível conectar ao MongoDB...', err)); // Mensagem de erro na conexão
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Conectado ao MongoDB Atlas'))
+  .catch(err => console.error('Não foi possível conectar ao MongoDB...', err));
+
 
 app.use(express.json()); // Middleware para analisar requisições JSON
 app.use(express.static(path.join(__dirname, 'public'))); // Serve arquivos estáticos do diretório 'public'
@@ -64,3 +65,4 @@ app.delete('/guests/:id', async (req, res) => {
 // Iniciar o servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`));
+console.log("MongoDB URI:", process.env.MONGO_URI);
