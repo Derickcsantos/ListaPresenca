@@ -7,9 +7,15 @@ const mongoose = require('mongoose'); // Importa o módulo 'mongoose' para inter
 // Conectar ao MongoDB Atlas usando variáveis de ambiente
 const mongoURI = process.env.MONGO_URI; // Usa a variável de ambiente MONGO_URI
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Conectado ao MongoDB Atlas'))
-  .catch(err => console.error('Não foi possível conectar ao MongoDB...', err));
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000, // Timeout depois de 5 segundos
+  socketTimeoutMS: 45000 // Timeout no socket após 45 segundos
+})
+.then(() => console.log('Conectado ao MongoDB Atlas'))
+.catch(err => console.error('Erro na conexão com MongoDB:', err));
+
 
 
 app.use(express.json()); // Middleware para analisar requisições JSON
