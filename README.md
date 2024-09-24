@@ -28,7 +28,7 @@
   </li>
 </ol>
 
-<p align="center">Acesse o projeto no navegador: Abra o navegador e vá para <strong>http://localhost:3000</strong>.</p>
+<p align="center">Acesse o projeto no navegador:  <strong>https://listaconvidados.vercel.app/ </strong>.</p>
 
 <h2 align="center">🛠️ Tecnologias Utilizadas</h2>
 <p align="center">
