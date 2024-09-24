@@ -10,7 +10,7 @@ body {
 }
 
 nav {
-  background-color: #e2a2a4;
+  background-color: #ccc;
   padding: 1rem;
   text-align: center;
 }
@@ -74,7 +74,7 @@ footer button {
 }
 
 footer button:hover {
-  background-color: #e2a2a4;
+  background-color: #777272;
 }
 
 .modal {
@@ -109,8 +109,12 @@ footer button:hover {
   padding: 10px;
   font-size: 18px;
   margin: 20px 0 0 0;
-  background-color: #e2a2a4;
+  background-color: #ccc;
   color: #fff;
+}
+
+.save:hover{
+  background-color: #777272;
 }
 
 .close {
